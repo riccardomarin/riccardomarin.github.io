@@ -2,34 +2,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Old_homepages on Riccardo Marin</title>
-    <link>http://example.org/old_homepage/</link>
+    <link>https://riccardomarin.github.io/old_homepage/</link>
     <description>Recent content in Old_homepages on Riccardo Marin</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://example.org/old_homepage/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://riccardomarin.github.io/old_homepage/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pages</title>
-      <link>http://example.org/old_homepage/pages/</link>
+      <link>https://riccardomarin.github.io/old_homepage/pages/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/old_homepage/pages/</guid>
+      <guid>https://riccardomarin.github.io/old_homepage/pages/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Experiences</title>
-      <link>http://example.org/old_homepage/experiences/</link>
+      <link>https://riccardomarin.github.io/old_homepage/experiences/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/old_homepage/experiences/</guid>
+      <guid>https://riccardomarin.github.io/old_homepage/experiences/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Vintage</title>
-      <link>http://example.org/old_homepage/vintage/</link>
+      <link>https://riccardomarin.github.io/old_homepage/vintage/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/old_homepage/vintage/</guid>
+      <guid>https://riccardomarin.github.io/old_homepage/vintage/</guid>
       <description></description>
     </item>
     

@@ -2,90 +2,90 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Riccardo Marin</title>
-    <link>http://example.org/</link>
+    <link>https://riccardomarin.github.io/</link>
     <description>Recent content on Riccardo Marin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://riccardomarin.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pages</title>
-      <link>http://example.org/old_homepage/pages/</link>
+      <link>https://riccardomarin.github.io/old_homepage/pages/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/old_homepage/pages/</guid>
+      <guid>https://riccardomarin.github.io/old_homepage/pages/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Experiences</title>
-      <link>http://example.org/old_homepage/experiences/</link>
+      <link>https://riccardomarin.github.io/old_homepage/experiences/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/old_homepage/experiences/</guid>
+      <guid>https://riccardomarin.github.io/old_homepage/experiences/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Vintage</title>
-      <link>http://example.org/old_homepage/vintage/</link>
+      <link>https://riccardomarin.github.io/old_homepage/vintage/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/old_homepage/vintage/</guid>
+      <guid>https://riccardomarin.github.io/old_homepage/vintage/</guid>
       <description></description>
     </item>
     
     <item>
       <title>A little journal without any ambition</title>
-      <link>http://example.org/posts/first_entry/</link>
+      <link>https://riccardomarin.github.io/posts/first_entry/</link>
       <pubDate>Thu, 02 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/first_entry/</guid>
+      <guid>https://riccardomarin.github.io/posts/first_entry/</guid>
       <description>I repent for not keeping a journal during my PhD. Annotating facts and thoughts is essential when dealing with complex processes. I do that for my research projects, but I do not for my academic experience. Curiously, I am also used to writing short tales but never related to my study path. I feel the urge to fill this gap.
 Apart from the sentimental perspective (I enjoy reading notes I took years before), this regret has practical reasons.</description>
     </item>
     
     <item>
       <title>Chapter 1</title>
-      <link>http://example.org/docs/example-doc/farm/</link>
+      <link>https://riccardomarin.github.io/docs/example-doc/farm/</link>
       <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/docs/example-doc/farm/</guid>
+      <guid>https://riccardomarin.github.io/docs/example-doc/farm/</guid>
       <description>&lt;p&gt;This is chapter 1 of example doc.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Chapter 1</title>
-      <link>http://example.org/docs/example-doc/nested-chapter/chapter-1/</link>
+      <link>https://riccardomarin.github.io/docs/example-doc/nested-chapter/chapter-1/</link>
       <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/docs/example-doc/nested-chapter/chapter-1/</guid>
+      <guid>https://riccardomarin.github.io/docs/example-doc/nested-chapter/chapter-1/</guid>
       <description>&lt;p&gt;This is chapter 1 of nested chapter.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Chapter 2</title>
-      <link>http://example.org/docs/example-doc/chapter-2/</link>
+      <link>https://riccardomarin.github.io/docs/example-doc/chapter-2/</link>
       <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/docs/example-doc/chapter-2/</guid>
+      <guid>https://riccardomarin.github.io/docs/example-doc/chapter-2/</guid>
       <description>&lt;p&gt;This is chapter 2 of example doc.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Chapter 2</title>
-      <link>http://example.org/docs/example-doc/nested-chapter/chapter-2/</link>
+      <link>https://riccardomarin.github.io/docs/example-doc/nested-chapter/chapter-2/</link>
       <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/docs/example-doc/nested-chapter/chapter-2/</guid>
+      <guid>https://riccardomarin.github.io/docs/example-doc/nested-chapter/chapter-2/</guid>
       <description>&lt;p&gt;This is chapter 2 of nested chapter.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://example.org/privacy/</link>
+      <link>https://riccardomarin.github.io/privacy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/privacy/</guid>
+      <guid>https://riccardomarin.github.io/privacy/</guid>
       <description>Solar System Exploration, 1950s – 1960s  Mercury Venus Earth (Orbit/Moon) Mars Jupiter Saturn Uranus Neptune Comet Haley  </description>
     </item>
     

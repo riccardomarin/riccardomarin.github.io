@@ -2,59 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://example.org/old_homepage/pages/</loc>
+    <loc>https://riccardomarin.github.io/old_homepage/pages/</loc>
   </url><url>
-    <loc>http://example.org/old_homepage/experiences/</loc>
+    <loc>https://riccardomarin.github.io/old_homepage/experiences/</loc>
   </url><url>
-    <loc>http://example.org/old_homepage/vintage/</loc>
+    <loc>https://riccardomarin.github.io/old_homepage/vintage/</loc>
   </url><url>
-    <loc>http://example.org/posts/first_entry/</loc>
+    <loc>https://riccardomarin.github.io/posts/first_entry/</loc>
     <lastmod>2021-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://riccardomarin.github.io/categories/</loc>
     <lastmod>2021-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/categories/pills/</loc>
+    <loc>https://riccardomarin.github.io/categories/pills/</loc>
     <lastmod>2021-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/</loc>
+    <loc>https://riccardomarin.github.io/posts/</loc>
     <lastmod>2021-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/</loc>
+    <loc>https://riccardomarin.github.io/</loc>
     <lastmod>2021-12-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/example-doc/farm/</loc>
+    <loc>https://riccardomarin.github.io/docs/example-doc/farm/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/example-doc/nested-chapter/chapter-1/</loc>
+    <loc>https://riccardomarin.github.io/docs/example-doc/nested-chapter/chapter-1/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/example-doc/chapter-2/</loc>
+    <loc>https://riccardomarin.github.io/docs/example-doc/chapter-2/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/example-doc/nested-chapter/chapter-2/</loc>
+    <loc>https://riccardomarin.github.io/docs/example-doc/nested-chapter/chapter-2/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/</loc>
+    <loc>https://riccardomarin.github.io/docs/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/example-doc/</loc>
+    <loc>https://riccardomarin.github.io/docs/example-doc/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/docs/example-doc/nested-chapter/</loc>
+    <loc>https://riccardomarin.github.io/docs/example-doc/nested-chapter/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://example.org/privacy/</loc>
+    <loc>https://riccardomarin.github.io/privacy/</loc>
     <priority>0</priority>
   </url><url>
-    <loc>http://example.org/authors/</loc>
+    <loc>https://riccardomarin.github.io/authors/</loc>
   </url><url>
-    <loc>http://example.org/old_homepage/</loc>
+    <loc>https://riccardomarin.github.io/old_homepage/</loc>
   </url><url>
-    <loc>http://example.org/authors/example-author/</loc>
+    <loc>https://riccardomarin.github.io/authors/example-author/</loc>
   </url><url>
-    <loc>http://example.org/authors/rick/</loc>
+    <loc>https://riccardomarin.github.io/authors/rick/</loc>
   </url><url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://riccardomarin.github.io/tags/</loc>
   </url>
 </urlset>

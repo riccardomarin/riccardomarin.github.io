@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rick on Riccardo Marin</title>
-    <link>http://example.org/authors/rick/</link>
+    <link>https://riccardomarin.github.io/authors/rick/</link>
     <description>Recent content in Rick on Riccardo Marin</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://example.org/authors/rick/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://riccardomarin.github.io/authors/rick/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
