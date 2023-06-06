@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Garden on Home</title>
+    <link>https://ricma.netlify.app/blog/</link>
+    <description>Recent content in Garden on Home</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ricma.netlify.app/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What is this place?</title>
+      <link>https://ricma.netlify.app/blog/social/</link>
+      <pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://ricma.netlify.app/blog/social/</guid>
+      <description>Looking back, I see two things I have almost always enjoyed: computers and writing. I have done both for a long time, with some rare attempts to do both together.
+In the last six years, I have focused on scientific research. With time passing, I feel that a significant part of my work schedule is shifting toward communication. And I have felt an increasing need to share thoughts somewhere.
+I believe that one of the main reasons is the time I spent writing projects to get funds.</description>
+    </item>
+    
+  </channel>
+</rss>
