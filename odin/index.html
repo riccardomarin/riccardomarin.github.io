@@ -1,1 +1,451 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ODin — Ordered Diffusion for 3D Human Registration</title>
+<meta name="description" content="ODin reframes 3D human registration as a generative task: a diffusion process that denoises points into a template's semantic order. GCPR 2026.">
+<meta property="og:title" content="ODin — Ordered Diffusion for 3D Human Registration">
+<meta property="og:description" content="Registration as a distribution of plausible alignments, not a single regression.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF0F3;
+    --card:#F8F9FB;
+    --ink:#15171B;
+    --muted:#5E6672;
+    --rule:#C6CCD4;
+    --indigo:#3E2B96;
+    --teal:#178A96;
+    --ochre:#C9781E;
+    --serif:"EB Garamond",Garamond,"Adobe Garamond Pro","Times New Roman",Times,serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+    --gut:clamp(20px,5vw,56px);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--serif);font-size:20px;line-height:1.58;font-weight:400;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:var(--indigo);text-decoration:none;border-bottom:1px solid rgba(62,43,150,.3)}
+  a:hover{border-bottom-color:var(--indigo)}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+  .col{max-width:49rem;margin-left:auto;margin-right:auto;padding-left:var(--gut);padding-right:var(--gut)}
+  .wide{max-width:1260px;margin-left:auto;margin-right:auto;padding-left:var(--gut);padding-right:var(--gut)}
+  .sc{
+    font-variant-caps:small-caps;letter-spacing:.11em;text-transform:lowercase;
+    font-size:.72em;color:var(--muted);
+  }
+
+  /* ---------- head matter ---------- */
+  .masthead{text-align:center;padding:clamp(46px,8vw,96px) 0 clamp(46px,6vw,84px)}
+  .venue{
+    margin:0 0 22px;font-variant-caps:small-caps;letter-spacing:.15em;font-size:15px;color:var(--muted);
+  }
+  .wordmark{
+    font-size:clamp(76px,13vw,148px);line-height:.86;margin:0;font-weight:500;letter-spacing:-.02em;
+  }
+  .wordmark i{font-style:italic;color:var(--indigo)}
+  .subtitle{
+    font-size:clamp(23px,3vw,34px);line-height:1.16;margin:16px auto 0;max-width:26ch;font-weight:400;
+  }
+  .authors{margin:30px auto 0;max-width:50rem;font-size:19px;line-height:1.5}
+  .authors sup{font-size:11px;color:var(--indigo);font-family:var(--mono)}
+  .affil{margin:12px auto 0;max-width:48rem;font-size:15.5px;line-height:1.62;color:var(--muted)}
+  .affil sup{font-size:10.5px;color:var(--indigo);font-family:var(--mono)}
+  .links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:30px 0 0;padding:0;list-style:none}
+  .links a,.links span{
+    display:inline-block;font-size:15px;font-variant-caps:small-caps;letter-spacing:.08em;
+    padding:6px 17px 7px;border:1px solid var(--ink);border-radius:2px;color:var(--ink);
+    transition:background .15s,color .15s;
+  }
+  .links a:hover{background:var(--ink);color:var(--paper)}
+  .links .soon{border-color:var(--rule);color:var(--muted)}
+
+  .teaser{
+    margin:clamp(30px,4vw,48px) auto 0;max-width:1000px;border:1px solid var(--rule);
+    background:#fff;text-align:left;   /* white, so the video's white backdrop is invisible */
+  }
+  .teaser figcaption{border-top:1px solid var(--rule);padding:12px 16px;margin:0}
+
+  /* ---------- teaser sequence ----------
+     Runs entirely in CSS: no script is involved, so it plays wherever the page opens.
+     Timeline over --seq (15.5s): beat 1 emphasised 0-3s, beat 2 3-10.9s, beat 3 10.9-14.9s,
+     then all three settle into the composed frame and hold.
+     The video is cut to match: 3s of frozen first frame, then 7.24s of denoising, so its
+     motion starts exactly as beat 2 lights up. It does not loop, so it holds its last frame. */
+  .stage{
+    --gap:clamp(14px,3vw,38px);
+    --seq:15.5s;
+    position:relative;display:grid;grid-template-columns:repeat(3,1fr);
+    gap:var(--gap);padding:20px 20px 4px;align-items:start;
+  }
+  /* if animations never run, the three panels simply stand as the composed frame */
+  .beat{opacity:1;transform:none}
+  .beat1{animation:beat-1 var(--seq) ease-in-out both}
+  .beat2{animation:beat-2 var(--seq) ease-in-out both}
+  .beat3{animation:beat-3 var(--seq) ease-in-out both}
+
+  /* 3.5% = 0.55s   19.4% = 3.0s   22.9% = 3.55s
+     70.3% = 10.9s  73.9% = 11.45s  96.1% = 14.9s */
+  @keyframes beat-1{
+    0%    {opacity:0;   transform:scale(.9); filter:saturate(.2)}
+    3.5%  {opacity:1;   transform:scale(1);  filter:saturate(1)}
+    19.4% {opacity:1;   transform:scale(1);  filter:saturate(1)}
+    22.9% {opacity:.28; transform:scale(.9); filter:saturate(.2)}
+    96.1% {opacity:.28; transform:scale(.9); filter:saturate(.2)}
+    100%  {opacity:1;   transform:scale(1);  filter:saturate(1)}
+  }
+  @keyframes beat-2{
+    0%    {opacity:0;   transform:scale(.9); filter:saturate(.2)}
+    19.4% {opacity:0;   transform:scale(.9); filter:saturate(.2)}
+    22.9% {opacity:1;   transform:scale(1);  filter:saturate(1)}
+    70.3% {opacity:1;   transform:scale(1);  filter:saturate(1)}
+    73.9% {opacity:.28; transform:scale(.9); filter:saturate(.2)}
+    96.1% {opacity:.28; transform:scale(.9); filter:saturate(.2)}
+    100%  {opacity:1;   transform:scale(1);  filter:saturate(1)}
+  }
+  @keyframes beat-3{
+    0%    {opacity:0;   transform:scale(.9); filter:saturate(.2)}
+    70.3% {opacity:0;   transform:scale(.9); filter:saturate(.2)}
+    73.9% {opacity:1;   transform:scale(1);  filter:saturate(1)}
+    100%  {opacity:1;   transform:scale(1);  filter:saturate(1)}
+  }
+
+  .beat-media{aspect-ratio:1/1;position:relative}
+  .beat-media img,.beat-media video{display:block;width:100%;height:100%;object-fit:contain}
+  .beat-cap{
+    margin:2px 0 16px;font-size:clamp(13px,1.35vw,17px);line-height:1.45;
+    color:var(--muted);text-align:center;
+  }
+  /* an arrow in each gap, riding in with the panel it introduces */
+  .beat2 .beat-media::before,
+  .beat3 .beat-media::before{
+    content:"";position:absolute;top:50%;left:calc(var(--gap) / -2);
+    width:30px;height:12px;transform:translate(-50%,-50%);
+    background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='12'%3E%3Cpath d='M0 6h26M21 1.5 26.5 6 21 10.5' fill='none' stroke='%235E6672' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  figcaption{
+    margin:16px auto 0;max-width:none;font-size:16.5px;line-height:1.55;color:var(--muted);
+  }
+  figcaption b{color:var(--ink);font-weight:500}
+  figcaption i{font-style:italic}
+
+  /* ---------- sections ---------- */
+  hr.rule{border:0;border-top:1px solid var(--rule);margin:0}
+  .sec{padding:clamp(44px,6vw,78px) 0}
+  h2{
+    font-size:clamp(27px,3.4vw,36px);font-weight:500;line-height:1.1;margin:0 0 22px;letter-spacing:-.012em;
+  }
+  h2 .num{color:var(--indigo);font-style:italic;margin-right:.5em}
+  .sec p{margin:0 0 1.05em}
+  .abstract{
+    max-width:46rem;margin:0 auto;padding:0 var(--gut);font-size:19px;line-height:1.56;
+  }
+  .abstract .lead{margin-top:0}
+  .abstract .runin{font-variant-caps:small-caps;letter-spacing:.1em;font-size:.86em}
+  .pull{
+    font-size:clamp(25px,3.4vw,37px);line-height:1.2;margin:0 0 26px;max-width:30ch;font-weight:400;
+  }
+  .pull i{font-style:italic;color:var(--indigo)}
+  em.term{font-style:italic}
+  .mathish{font-style:italic}
+
+  /* ---------- conditioning ---------- */
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:34px 0 0}
+  .card{background:var(--card);padding:22px 22px 24px}
+  .card .scale{font-variant-caps:small-caps;letter-spacing:.11em;font-size:14.5px;color:var(--indigo);display:block}
+  .card h3{font-size:23px;font-weight:500;margin:8px 0 2px}
+  .card .dim{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 12px}
+  .card p{margin:0;font-size:17.5px;line-height:1.5}
+  .display-eq{
+    margin:30px 0 0;padding:20px 18px;background:var(--card);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    text-align:center;font-size:20px;overflow-x:auto;
+  }
+  .display-eq .tag{display:block;margin-top:10px;font-size:15px;color:var(--muted);font-variant-caps:small-caps;letter-spacing:.09em}
+
+  .paperfig{margin:34px 0 0;background:#fff;border:1px solid var(--rule);padding:16px 18px 4px}
+  .paperfig img{display:block;width:100%;height:auto}
+  .paperfig figcaption{margin:14px 0 12px}
+
+  /* ---------- figure slots ---------- */
+  .slots{display:grid;gap:26px;margin:34px 0 0}
+  .slot{border:1px solid var(--rule);background:#fff;margin:0}
+  .slot-media{padding:16px 18px 12px}
+  .slot-media img{display:block;width:100%;height:auto}
+  .slot figcaption{border-top:1px solid var(--rule);padding:12px 16px;margin:0;max-width:none}
+
+  /* panel labels sit at the measured centre of each figure in the strip */
+  .panel-labels{position:relative;height:1.5em;margin-top:2px}
+  .panel-labels span{
+    position:absolute;top:0;transform:translateX(-50%);white-space:nowrap;
+    font-size:clamp(10px,1.3vw,17px);line-height:1.5;
+  }
+  .panel-labels .ours{font-weight:600}
+  .panel-labels .cite{color:var(--muted);font-size:.84em}
+
+  /* ---------- bibtex ---------- */
+  .bib{position:relative;background:var(--card);border:1px solid var(--rule);padding:22px 22px 18px;overflow-x:auto}
+  .bib pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre}
+  .copy{
+    position:absolute;top:12px;right:12px;font-family:var(--serif);font-size:14.5px;
+    font-variant-caps:small-caps;letter-spacing:.08em;background:var(--paper);border:1px solid var(--rule);
+    border-radius:2px;padding:3px 12px 4px;cursor:pointer;color:var(--ink);
+  }
+  .copy:hover{border-color:var(--ink)}
+
+  footer{border-top:1px solid var(--rule);padding:38px 0 64px;text-align:center}
+  .ack{font-size:15.5px;line-height:1.6;color:var(--muted);max-width:52rem;margin:0 auto 26px}
+  .foot-mark{font-size:30px;font-weight:500}
+  .foot-mark i{font-style:italic;color:var(--indigo)}
+
+  @media (max-width:900px){
+    .cards{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .stage{grid-template-columns:1fr;padding:16px 16px 4px}
+    .beat-media{aspect-ratio:4/3}
+    /* stacked: the arrows turn to point down into the next panel */
+    .beat2 .beat-media::before,
+    .beat3 .beat-media::before{
+      top:calc(var(--gap) / -2);left:50%;transform:translate(-50%,-50%) rotate(90deg);
+    }
+  }
+  /* reduced motion: the beats still take their turn, they just fade instead of moving */
+  @media (prefers-reduced-motion:reduce){
+    .stage .beat{transform:none !important}
+  }
+  @media (max-width:560px){
+    body{font-size:19px}
+    .abstract{font-size:18px}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wide">
+    <p class="venue">German Conference on Pattern Recognition · GCPR 2026</p>
+    <h1 class="wordmark">OD<i>in</i></h1>
+    <p class="subtitle">Ordered Diffusion for 3D Human Registration</p>
+    <p class="authors">
+      Mattia Masiero<sup>1</sup>,
+      Ilya A. Petrov<sup>1,2</sup>,
+      Daniel Cremers<sup>3,4</sup>,
+      Gerard Pons-Moll<sup>1,2,5</sup>,
+      Riccardo Marin<sup>3,4</sup>
+    </p>
+    <p class="affil">
+      <sup>1</sup>University of Tübingen &nbsp;·&nbsp; <sup>2</sup>Tübingen AI Center &nbsp;·&nbsp;
+      <sup>3</sup>Technical University of Munich &nbsp;·&nbsp; <sup>4</sup>Munich Center for Machine Learning &nbsp;·&nbsp;
+      <sup>5</sup>Max Planck Institute for Informatics, Saarland Informatics Campus
+    </p>
+    <ul class="links">
+      <li><a id="paper-link" href="#">Paper</a></li>
+      <li><a id="arxiv-link" href="#">arXiv</a></li>
+      <li><span class="soon">Code — soon</span></li>
+      <li><a href="#bibtex">BibTeX</a></li>
+    </ul>
+
+    <figure class="teaser">
+      <div class="stage" id="stage">
+        <div class="beat beat1">
+          <div class="beat-media">
+            <img src="animation/male_50009_jumping_jacks_554_scan_original.png" alt="An input scan: a person standing with arms outstretched, reconstructed as a raw surface with ragged, incomplete hands.">
+          </div>
+          <p class="beat-cap">Given an input scan</p>
+        </div>
+        <div class="beat beat2">
+          <div class="beat-media">
+            <video id="stage-video" src="animation/pointcloud_animation_teaser.mp4"
+                   autoplay muted playsinline preload="auto"
+                   aria-label="A cloud of coloured points starts as unstructured noise and is denoised into the shape of the scanned person, each point keeping the colour of its position in the template order."></video>
+          </div>
+          <p class="beat-cap">we use a 3D diffusion model to recover a point cloud that fits the target while respecting a semantic order of the points</p>
+        </div>
+        <div class="beat beat3">
+          <div class="beat-media">
+            <img src="animation/chamfer.png" alt="The registered template mesh in the pose of the input scan, with clean, complete hands.">
+          </div>
+          <p class="beat-cap">which lets us solve for template registration, while retaining the uncertain nature of the task</p>
+        </div>
+      </div>
+      <figcaption>ODin denoises Gaussian noise into an ordered template alignment, conditioned on the input scan alone.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<hr class="rule">
+
+<section class="sec">
+  <div class="abstract">
+    <p class="lead"><span class="runin">Abstract.</span> 
+    
+    3D human registration has historically been treated as a regression task, assuming a unique ground-truth alignment exists between the template and an input point cloud. In reality, acquisition noise, occlusions, and unknown soft tissue dynamics introduce inherent ambiguity into human scans. Regression-based methods consequently converge to an average prediction, often failing to represent a plausible geometry. In our work, we embrace such uncertainty by modeling the registration as a distribution of alignments. We propose ODin, which formulates registration as a 3D diffusion process that generates a point cloud aligned with the target geometry while preserving template semantics through consistent point ordering. To achieve this, ODin relies on global, local, and positional conditioning, guiding each point to its correct location. Our experiments demonstrate that such a generative formulation not only outperforms its regression-based baseline, but also establishes a new state of the art, surpassing highly engineered methods while reducing the registration time by two-thirds.    
+    </div>
+</section> 
+ 
+<hr class="rule">
+
+<section class="sec">
+  <div class="col">
+    <h2><span class="num">1</span>The premise</h2>
+    <p class="pull">A scan admits many alignments. Regression returns their <i>average</i> — a body nobody has.</p>
+    <p>Sensors are noisy, limbs go missing, soft tissue moves. Enstablishing a ground-truth dense correspondence between human models is an ill-posed problem. 
+      Collapsing all of that into a single prediction is what makes deterministic methods glue a missing leg to the torso, or push an arm through a hip.</p>
+    <p>ODin proposes to model the task as a generative one. Registration becomes sampling: start from Gaussian noise, denoise toward the observed geometry, and read off one plausible alignment. Draw again and you get another.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="sec">
+  <div class="col">
+    <h2><span class="num">2</span>Denoising into an order</h2>
+    <p>Point-cloud diffusion models reconstruct <em class="term">shape</em>: any point may end up anywhere on the surface. In registration a point <span class="mathish">i</span> must land where template vertex <span class="mathish">i</span> belongs. 
+     </p>
+    <p>ODin fixes the order with geometric conditioning at three scales.</p>
+  </div>
+
+  <div class="wide">
+    <div class="cards">
+      <div class="card">
+        <span class="scale">scale — whole scan</span>
+        <h3>Global feature</h3>
+        <p class="dim">f_global ∈ R^256 · one extra token</p>
+        <p>Taken from the bottleneck of an encoder-decoder PointNet++. It gives every point a coarse sense of where the body is.</p>
+      </div>
+      <div class="card">
+        <span class="scale">scale — neighbourhood</span>
+        <h3>Local features</h3>
+        <p class="dim">f_local ∈ R^128 · nearest neighbour, every step</p>
+        <p>Per-scan-point features from the final PointNet++ layer. At each step every noisy point takes the feature of its closest scan point — a lookup that is close to random early on, but decisive late.</p>
+      </div>
+      <div class="card">
+        <span class="scale">scale — one vertex</span>
+        <h3>Positional encoding</h3>
+        <p class="dim">PE(i) ∈ R^1024 · d = 1024</p>
+        <p>The sinusoidal encoding of the vertex index: the point's identity on the template, and the reason the output comes back ordered rather than merely body-shaped.</p>
+      </div>
+    </div>
+
+    <!-- <div class="display-eq">
+      <span class="mathish">v<sup>i</sup></span> = <span class="mathish">x̂<sup>i</sup><sub>t</sub></span> + <span class="mathish">f̂<sup>i</sup><sub>local</sub></span> + PE(<span class="mathish">i</span>)
+      &nbsp;&nbsp;&nbsp;⟶&nbsp;&nbsp;&nbsp;
+      <span class="mathish">e</span> = [ <span class="mathish">v</span><sup>1</sup>, <span class="mathish">v</span><sup>2</sup>, … , <span class="mathish">v</span><sup>689</sup>, <span class="mathish">f̂<sub>global</sub></span>, <span class="mathish">t̂<sub>emb</sub></span> ]<sup>⊤</sup> ∈ R<sup>691×d</sup>
+      <span class="tag">one token per template vertex, plus the scan summary and the timestep</span>
+    </div> -->
+
+    <figure class="paperfig">
+      <img src="pipeline.png" alt="ODin pipeline: an input point cloud is encoded by a PointNet++ backbone into a global feature and per-point local features; a denoising transformer recovers an ordered point cloud from Gaussian noise, with local features assigned to the diffusing vertices by nearest neighbour at each step; the output is a point cloud ordered according to the SMPL template.">
+      <figcaption><b>Fig. 1.</b> Global and per-point features are extracted once from the scan; the denoising transformer recovers an ordered point cloud from Gaussian noise. Local features are re-assigned to the diffusing vertices by nearest neighbour at every step.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="sec">
+  <div class="col">
+    <h2><span class="num">3</span>Results</h2>
+</div>
+
+  <div class="wide">
+    <div class="slots">
+      <figure class="slot">
+        <div class="slot-media">
+          <img src="partial.png" alt="Two partial-scan examples, each shown as four figures: the input point cloud with a missing limb, the ground-truth mesh, the NICP registration, and the ODin registration. Red arrows mark where NICP collapses the occluded limb into the body; ODin instead recovers a plausible pose.">
+          <div class="panel-labels">
+            <span style="left:6.76%">Input</span>
+            <span style="left:14.44%">GT</span>
+            <span style="left:24.79%">NICP</span>
+            <span style="left:36.61%" class="ours">ODin</span>
+            <span style="left:54.72%">Input</span>
+            <span style="left:67.60%">GT</span>
+            <span style="left:80.36%">NICP</span>
+            <span style="left:94.06%" class="ours">ODin</span>
+          </div>
+        </div>
+        <figcaption><b>Fig. 2.</b> Missing limbs and partial views, DFAUST test set, before chamfer optimisation. Under partiality NICP predicts unrealistic penetrations; ODin produces a plausible pose and a better local minimum for the fit that follows.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="slot-media">
+          <img src="hypotheses.png" alt="Two partial-scan examples, each shown as an input point cloud followed by three registrations sampled from the same model. The completions of the unobserved region differ between samples while the observed parts stay consistent.">
+                  <div class="panel-labels">
+            <span style="left:6.76%">Input</span>
+            <span style="left:16.44%">Hyp. #1</span>
+            <span style="left:24.79%">Hyp. #2</span>
+            <span style="left:36.61%">Hyp. #3</span>
+            <span style="left:54.72%">Input</span>
+            <span style="left:67.60%">Hyp. #1</span>
+            <span style="left:80.36%">Hyp. #2</span>
+            <span style="left:94.06%">Hyp. #3</span>
+          </div>
+        </div>
+        <figcaption><b>Fig. 3.</b> Sampling repeatedly gives several plausible completions of the unobserved part, and the spread tracks real anatomy — the forearm varies more than the lower leg.</figcaption>
+      </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="sec">
+  <div class="col">
+    <h2><span class="num">4</span>What this opens, and where it stops</h2>
+    <p>The design is not specific to people. Nothing in the conditioning assumes a parametric body model — only that the template has a fixed, meaningful vertex order — so the same recipe should carry to other classes, including those without a SMPL-style prior.</p>
+    <p>The diffusion toolbox is largely untouched here: score distillation, guidance, and non-isotropic noise schedules all have obvious roles to play in registration. On the other hand, ODin expects a segmented human. Heavy clutter — furniture, large floor regions — would break it, and more structured features are the likely fix.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="sec" id="bibtex">
+  <div class="col">
+    <h2>Cite</h2>
+    <div class="bib">
+      <button class="copy" id="copy-bib">copy</button>
+<pre id="bib-text">@inproceedings{masiero2026odin,
+  author    = {Masiero, Mattia and Petrov, Ilya A. and Cremers, Daniel
+               and Pons-Moll, Gerard and Marin, Riccardo},
+  title     = {Ordered Diffusion for {3D} Human Registration},
+  booktitle = {DAGM German Conference on Pattern Recognition},
+  publisher = {Springer},
+  year      = {2026},
+}</pre>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="col">
+    <p class="ack">Funded by the Deutsche Forschungsgemeinschaft — 409792180 (Emmy Noether Programme, project: Real Virtual Humans). G. Pons-Moll is a member of the Machine Learning Cluster of Excellence, EXC number 2064/1 — project number 390727645. The authors thank the International Max Planck Research School for Intelligent Systems (IMPRS-IS) for supporting I. A. Petrov. R. Marin has been supported by the European Union's Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101109330. The project was made possible by funding from the Carl Zeiss Foundation. This work was supported by the European Research Council (ERC) Advanced Grant SIMULACRON and by the GNI Project "AI4Twinning".</p>
+    <div class="foot-mark">OD<i>in</i></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var btn = document.getElementById('copy-bib');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var txt = document.getElementById('bib-text').textContent;
+    var done = function(){ btn.textContent='copied'; setTimeout(function(){ btn.textContent='copy'; },1600); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,done); }
+    else {
+      var ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); done();
+    }
+  });
+})();
+</script>
+</body>
+</html>
