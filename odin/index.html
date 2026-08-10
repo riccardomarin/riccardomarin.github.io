@@ -23,6 +23,8 @@
     --serif:"EB Garamond",Garamond,"Adobe Garamond Pro","Times New Roman",Times,serif;
     --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
     --gut:clamp(20px,5vw,56px);
+    /* one measure for everything: text columns and figure strips share an edge */
+    --wide:1260px;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -34,8 +36,8 @@
   a{color:var(--indigo);text-decoration:none;border-bottom:1px solid rgba(62,43,150,.3)}
   a:hover{border-bottom-color:var(--indigo)}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
-  .col{max-width:49rem;margin-left:auto;margin-right:auto;padding-left:var(--gut);padding-right:var(--gut)}
-  .wide{max-width:1260px;margin-left:auto;margin-right:auto;padding-left:var(--gut);padding-right:var(--gut)}
+  .col{max-width:var(--wide);margin-left:auto;margin-right:auto;padding-left:var(--gut);padding-right:var(--gut)}
+  .wide{max-width:var(--wide);margin-left:auto;margin-right:auto;padding-left:var(--gut);padding-right:var(--gut)}
   .sc{
     font-variant-caps:small-caps;letter-spacing:.11em;text-transform:lowercase;
     font-size:.72em;color:var(--muted);
@@ -52,7 +54,12 @@
   .wordmark i{font-style:italic;color:var(--indigo)}
   .subtitle{
     font-size:clamp(23px,3vw,34px);line-height:1.16;margin:16px auto 0;max-width:26ch;font-weight:400;
+    color:var(--muted);
   }
+  /* the four letters the wordmark is built from, wearing the wordmark's own dress:
+     O and D upright in ink, i and n italic indigo — so ODin reads out of the title */
+  .subtitle .mk{font-style:normal;font-weight:500;color:var(--ink)}
+  .subtitle .mk-i{font-style:italic;font-weight:500;color:var(--indigo)}
   .authors{margin:30px auto 0;max-width:50rem;font-size:19px;line-height:1.5}
   .authors sup{font-size:11px;color:var(--indigo);font-family:var(--mono)}
   .affil{margin:12px auto 0;max-width:48rem;font-size:15.5px;line-height:1.62;color:var(--muted)}
@@ -145,7 +152,7 @@
   h2 .num{color:var(--indigo);font-style:italic;margin-right:.5em}
   .sec p{margin:0 0 1.05em}
   .abstract{
-    max-width:46rem;margin:0 auto;padding:0 var(--gut);font-size:19px;line-height:1.56;
+    max-width:var(--wide);margin:0 auto;padding:0 var(--gut);font-size:19px;line-height:1.56;
   }
   .abstract .lead{margin-top:0}
   .abstract .runin{font-variant-caps:small-caps;letter-spacing:.1em;font-size:.86em}
@@ -232,7 +239,7 @@
   <div class="wide">
     <p class="venue">German Conference on Pattern Recognition · GCPR 2026</p>
     <h1 class="wordmark">OD<i>in</i></h1>
-    <p class="subtitle">Ordered Diffusion for 3D Human Registration</p>
+    <p class="subtitle"><span class="mk">O</span>rdered <span class="mk">D</span><span class="mk-i">i</span>ffusio<span class="mk-i">n</span> for 3D Human Registration</p>
     <p class="authors">
       Mattia Masiero<sup>1</sup>,
       Ilya A. Petrov<sup>1,2</sup>,
@@ -247,8 +254,8 @@
     </p>
     <ul class="links">
       <li><a id="paper-link" href="#">Paper</a></li>
-      <li><a id="arxiv-link" href="#">arXiv</a></li>
-      <li><span class="soon">Code — soon</span></li>
+      <li><a id="arxiv-link" href="https://arxiv.org/abs/2608.05804v1">arXiv</a></li>
+      <li><a id="code-link" href="https://github.com/Matti-Prog/odin">Code</a></li>
       <li><a href="#bibtex">BibTeX</a></li>
     </ul>
 
