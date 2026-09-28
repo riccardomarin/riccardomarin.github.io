@@ -53,16 +53,16 @@
      mirrored, in the page's ochre; the lettering takes the deeper ochre so it stays legible */
   .award{
     display:flex;align-items:center;justify-content:center;
-    margin:0 0 22px;font-size:17px;line-height:1.3;font-weight:500;
+    margin:4px 0 26px;font-size:clamp(19px,2.4vw,24px);line-height:1.3;font-weight:500;
     font-variant-caps:small-caps;letter-spacing:.14em;color:var(--ochre-ink);
   }
   .award::before,.award::after{
-    content:"";flex:none;width:14px;height:31px;
+    content:"";flex:none;width:clamp(18px,2.2vw,21px);height:clamp(40px,4.9vw,46px);
     background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='31' viewBox='-.7 .6 13.9 30.6'%3E%3Cpath d='M12.5 30Q-2.4 18.3 7.9 5.4' fill='none' stroke='%23C9781E' stroke-width='1.1' stroke-linecap='round'/%3E%3Cpath d='M8.2 26.1Q10.4 22.5 7.7 18.5Q5.6 22.8 8.2 26.1ZM8.2 26.1Q5.7 23.5 1.9 24.9Q5 27.6 8.2 26.1ZM5.2 21.7Q8 19.1 6.6 14.9Q3.7 18.2 5.2 21.7ZM5.2 21.7Q3.6 18.9 -.1 19.2Q2 22.3 5.2 21.7ZM3.8 17.3Q7 15.9 7 11.9Q3.6 13.9 3.8 17.3ZM3.8 17.3Q3.3 14.4 0 13.6Q.9 16.8 3.8 17.3ZM4.1 12.8Q7.1 12.6 8.4 9.3Q4.9 9.9 4.1 12.8ZM4.1 12.8Q4.5 10.2 2.1 8.5Q1.8 11.5 4.1 12.8ZM5.9 8.2Q8.6 8.9 10.5 6.4Q7.4 6 5.9 8.2ZM5.9 8.2Q7 6.2 5.4 4.1Q4.4 6.5 5.9 8.2ZM7.1 6.4Q10.4 5.2 10.9 1.2Q7.3 2.9 7.1 6.4Z' fill='%23C9781E'/%3E%3C/svg%3E");
   }
   /* letter-spacing trails the last letter, so the left gap carries the same extra .14em */
-  .award::before{margin-right:calc(12px + .14em)}
-  .award::after{margin-left:12px;transform:scaleX(-1)}
+  .award::before{margin-right:calc(16px + .14em)}
+  .award::after{margin-left:16px;transform:scaleX(-1)}
   .wordmark{
     font-size:clamp(76px,13vw,148px);line-height:.86;margin:0;font-weight:500;letter-spacing:-.02em;
   }
@@ -175,6 +175,7 @@
     font-size:clamp(25px,3.4vw,37px);line-height:1.2;margin:0 0 26px;max-width:30ch;font-weight:400;
   }
   .pull i{font-style:italic;color:var(--indigo)}
+  .nobr{white-space:nowrap}
   em.term{font-style:italic}
   .mathish{font-style:italic}
 
@@ -270,6 +271,7 @@
     </p>
     <ul class="links">
       <li><a id="paper-link" href="#">Paper</a></li>
+      <li><a id="poster-link" href="Poster.pdf" target="_blank" rel="noopener">Poster</a></li>
       <li><a id="arxiv-link" href="https://arxiv.org/abs/2608.05804v1">arXiv</a></li>
       <li><a id="code-link" href="https://github.com/Matti-Prog/odin">Code</a></li>
       <li><a href="#bibtex">BibTeX</a></li>
@@ -318,7 +320,7 @@
 <section class="sec">
   <div class="col">
     <h2><span class="num">1</span>The premise</h2>
-    <p class="pull">A scan admits many alignments. Regression returns their <i>average</i> — a body nobody has.</p>
+    <p class="pull">A scan admits many alignments. Regression returns their <i>average</i>, <span class="nobr">a body nobody has.</span></p>
     <p>Sensors are noisy, limbs go missing, soft tissue moves. Enstablishing a ground-truth dense correspondence between human models is an ill-posed problem. 
       Collapsing all of that into a single prediction is what makes deterministic methods glue a missing leg to the torso, or push an arm through a hip.</p>
     <p>ODin proposes to model the task as a generative one. Registration becomes sampling: start from Gaussian noise, denoise toward the observed geometry, and read off one plausible alignment. Draw again and you get another.</p>
