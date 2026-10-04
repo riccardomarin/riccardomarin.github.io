@@ -1,0 +1,6 @@
+# Selected publications shown on the homepage, top to bottom.
+# One file name per line (without .md). Remove a line to hide a paper; lines starting with # are ignored.
+odin
+echo
+stitched
+star

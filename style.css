@@ -1,0 +1,156 @@
+/* =====================================================================
+   Riccardo Marin — website26
+   Colours live in the tokens below. Light is the default theme;
+   dark is used when the visitor clicks the "dark" toggle.
+   To switch to the viridis palette, set data-palette="gradient" on <html>.
+   ===================================================================== */
+
+/* ---------- Colour tokens ---------- */
+:root {
+  --bg: #fbfaf6; --fg: #1b1a18; --muted: #6b6862; --rule: #dcd8cf; --plate: #fbfaf6;
+  /* single accent (Okabe–Ito blue) and its 8-step ramp for figures */
+  --accent: #0072B2;
+  --c0: #a6cbe5; --c1: #86b8dc; --c2: #63a2d0; --c3: #3f8cc3;
+  --c4: #1e76b4; --c5: #0d629c; --c6: #0a5082; --c7: #083f68;
+}
+:root[data-theme="dark"] {
+  --bg: #141413; --fg: #e8e5de; --muted: #9c988f; --rule: #3a3834; --plate: #141413;
+  --accent: #6cc0ee;
+  --c0: #2c5d80; --c1: #3a7098; --c2: #4983ad; --c3: #5c97c2;
+  --c4: #72abd4; --c5: #8cbfe2; --c6: #a9d2ee; --c7: #c9e4f7;
+}
+/* optional viridis palette */
+:root[data-palette="gradient"] {
+  --accent: #1c7480;
+  --c0: #440154; --c1: #482878; --c2: #3e4989; --c3: #31688e;
+  --c4: #26828e; --c5: #1f9e89; --c6: #35b779; --c7: #6ece58;
+}
+:root[data-palette="gradient"][data-theme="dark"] {
+  --accent: #5cc88a;
+  --c0: #414487; --c1: #355f8d; --c2: #2a788e; --c3: #21918c;
+  --c4: #22a884; --c5: #44bf70; --c6: #7ad151; --c7: #fde725;
+}
+:root { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* ---------- Base typography ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: "EB Garamond", Garamond, "Times New Roman", serif;
+  font-size: 20px; line-height: 1.5;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  font-feature-settings: "kern", "liga", "onum";
+  text-rendering: optimizeLegibility; hanging-punctuation: first;
+}
+main { max-width: 46rem; margin: 0 auto; padding: 3.5rem 1rem 5rem; }
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--accent); }
+p a, .links a, .nav a, .contact a, .posts a, .terms a, .post-body a, .back a {
+  text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: .18em; text-decoration-color: var(--accent);
+}
+h1, h2, h3 { font-weight: 500; margin: 0; }
+p { margin: 0 0 .9em; hyphens: auto; }
+abbr, .sc { font-variant-caps: all-small-caps; letter-spacing: .04em; text-decoration: none; }
+section { margin-top: 3.2rem; }
+h2 { font-size: 1rem; font-variant-caps: all-small-caps; letter-spacing: .12em; color: var(--muted); margin-bottom: 1.4rem; }
+
+/* ---------- Header ---------- */
+header.top { display: grid; grid-template-columns: 1fr 8rem; gap: 2rem; align-items: start; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+h1 { font-size: 2.6rem; line-height: 1.05; letter-spacing: -.005em; margin-bottom: .6rem; }
+.intro { font-size: 1.05rem; }
+.contact { font-size: .95rem; margin-top: .4rem; }
+.contact a { margin-right: .75em; }
+.nav { margin-top: 1rem; font-size: 1.02rem; font-variant-caps: all-small-caps; letter-spacing: .06em; }
+.nav a { margin-right: 1.2em; }
+.photo { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 28%; border-radius: 50%; display: block; }
+.theme-toggle {
+  font: inherit; font-size: .85rem; font-variant-caps: all-small-caps; letter-spacing: .08em;
+  color: var(--muted); background: none; border: 0; padding: .2rem 0; cursor: pointer;
+}
+.theme-toggle:hover { color: var(--accent); }
+
+/* ---------- Eigenfunction dividers (drawn by site.js) ---------- */
+.eig { display: block; width: 100%; height: 14px; margin-bottom: .9rem; overflow: visible; }
+.eig polyline { fill: none; stroke: var(--accent); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: .75; }
+:root[data-palette="gradient"] .eig polyline { stroke: url(#viridis); opacity: 1; }
+
+/* ---------- Publications & teaching ---------- */
+.pub { display: grid; grid-template-columns: 11rem 1fr; gap: 1.4rem; margin-bottom: 2rem; align-items: start; }
+.thumb { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; border-radius: 2px; }
+.thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb img { object-fit: contain; }
+.pub h3 { font-size: 1.08rem; line-height: 1.3; margin-bottom: .25rem; }
+.pub h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.pub p { margin: 0 0 .15rem; font-size: .92rem; line-height: 1.4; }
+.authors { color: var(--muted); }
+.me { color: var(--fg); font-weight: 500; }
+.note { font-variant-caps: all-small-caps; letter-spacing: .06em; color: var(--accent); margin-left: .55em; white-space: nowrap; }
+.note + .note::before { content: "· "; color: var(--muted); }
+.tldr { margin-top: .35rem !important; }
+.links { font-variant-caps: all-small-caps; letter-spacing: .05em; }
+.links a { margin-right: .7em; }
+.terms { color: var(--muted); }
+.course .thumb { border: 1px solid var(--rule); background: var(--bg); }
+.thumb-svg { width: 100%; height: 100%; display: block; }
+.thumb-svg .plate { fill: var(--plate); }
+.thumb-svg text { font-family: "EB Garamond", serif; font-size: 17px; fill: var(--fg); letter-spacing: .08em; }
+.c0 { fill: var(--c0); } .c1 { fill: var(--c1); } .c2 { fill: var(--c2); } .c3 { fill: var(--c3); }
+.c4 { fill: var(--c4); } .c5 { fill: var(--c5); } .c6 { fill: var(--c6); } .c7 { fill: var(--c7); }
+.more { font-size: .92rem; }
+
+/* ---------- Blog list ---------- */
+.posts { list-style: none; padding: 0; margin: 0 0 .5rem; }
+.posts li { display: grid; grid-template-columns: 8.5rem 1fr; column-gap: 1.4rem; margin-bottom: .6rem; }
+.posts a { justify-self: start; }
+.posts time { color: var(--muted); }
+.posts .sub { grid-column: 2; color: var(--muted); font-style: italic; font-size: .92rem; }
+
+/* ---------- Single blog post (post.html) ---------- */
+.post-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3rem; }
+.back { font-variant-caps: all-small-caps; letter-spacing: .06em; }
+.post-title { font-size: 2.2rem; line-height: 1.12; margin-bottom: .4rem; }
+.post-sub { font-style: italic; color: var(--muted); font-size: 1.1rem; margin-bottom: .3rem; }
+.post-date { color: var(--muted); font-size: .92rem; margin-bottom: 2rem; }
+.post-date + .lang-note { margin-top: -1.4rem; }
+.lang-note { color: var(--muted); font-size: .92rem; margin-bottom: 2rem; }
+.lang-switch { white-space: nowrap; margin-left: .3em; }
+.lang-switch button {
+  font: inherit; font-variant-caps: all-small-caps; letter-spacing: .06em; color: var(--fg);
+  background: none; border: 0; padding: 0; cursor: pointer;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; text-decoration-color: var(--accent);
+}
+.lang-switch button:hover { color: var(--accent); }
+.lang-switch button[aria-pressed="true"] { color: var(--muted); text-decoration: none; cursor: default; }
+.langs { font-variant-caps: all-small-caps; letter-spacing: .06em; color: var(--muted); margin-left: .6em; font-size: .92rem; }
+.post-body h2 { font-size: 1.35rem; font-variant-caps: normal; letter-spacing: 0; color: var(--fg); margin: 2rem 0 .8rem; }
+.post-body h3 { font-size: 1.12rem; margin: 1.6rem 0 .6rem; }
+.post-body img { max-width: 100%; height: auto; }
+.post-body blockquote { margin: 1.2rem 0; padding-left: 1rem; border-left: 1px solid var(--accent); color: var(--muted); font-style: italic; }
+.post-body code { font-size: .88em; }
+.post-body pre { overflow-x: auto; font-size: .85rem; line-height: 1.45; padding: .8rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+
+/* ---------- Gradient palette: links underlined with viridis ---------- */
+:root[data-palette="gradient"] :is(p a, .links a, .nav a, .contact a, .posts a, .terms a, .post-body a, .back a) {
+  text-decoration: none; background-image: linear-gradient(90deg, var(--c1), var(--c4), var(--c7));
+  background-size: 100% 1px; background-repeat: no-repeat; background-position: 0 92%;
+}
+
+/* ---------- Footer & misc ---------- */
+footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .85rem; }
+.error { color: var(--muted); font-style: italic; font-size: .92rem; }
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+  body { font-size: 18px; }
+  main { padding-top: 2rem; }
+  header.top { grid-template-columns: 1fr 5.5rem; gap: 1rem; }
+  h1 { font-size: 2rem; }
+  .pub { grid-template-columns: 1fr; gap: .7rem; }
+  .posts li { grid-template-columns: 1fr; }
+  .posts .sub { grid-column: 1; }
+  .post-title { font-size: 1.8rem; }
+}

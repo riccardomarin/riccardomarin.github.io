@@ -1,5 +1,82 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<title>Redirecting to https://ricma.netlify.app/</title>
-<meta http-equiv="refresh" content="0; URL=https://ricma.netlify.app/">
-<link rel="canonical" href="https://ricma.netlify.app/">
+<!doctype html>
+<!-- data-palette: "accent" (blue) or "gradient" (viridis) -->
+<html lang="en" data-palette="accent">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Riccardo Marin</title>
+  <meta name="description" content="Riccardo Marin — Interim Professor, Chair of Machine Learning for Robotics, TUM. 3D shape analysis, correspondence and virtual humans.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>try { if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
+  <script src="site.js" defer></script>
+  <!-- visit counter: dashboard at https://riccardomarin.goatcounter.com -->
+  <script data-goatcounter="https://riccardomarin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <!-- used by the viridis palette to colour the dividers -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="viridis">
+    <stop offset="0" stop-color="var(--c0)"/><stop offset=".29" stop-color="var(--c2)"/>
+    <stop offset=".57" stop-color="var(--c4)"/><stop offset="1" stop-color="var(--c7)"/>
+  </linearGradient></defs></svg>
+
+  <main>
+    <!-- ============ HEADER: name, position, links (edit here) ============ -->
+    <header class="top">
+      <div>
+        <div class="row">
+          <h1>Riccardo Marin</h1>
+          <button class="theme-toggle" type="button">dark</button>
+        </div>
+        <p class="intro">Interim Professor, Chair of Machine Learning for Robotics, TUM · MCML · ELLIS</p>
+        <!-- <p class="intro">I teach machines to understand 3D shapes and the humans that inhabit them.</p> -->
+        <p class="contact">
+          <a href="mailto:riccardo.marin@tum.de">Email</a>
+          <a href="https://scholar.google.com/citations?user=qhw2qgQAAAAJ">Scholar</a>
+          <a href="https://github.com/riccardomarin">GitHub</a>
+          <a href="https://www.linkedin.com/in/riccmarin">LinkedIn</a>
+          <a href="https://orcid.org/0000-0003-2392-4612">ORCID</a>
+          <a href="https://twitter.com/_R_Marin_">Twitter</a>
+        </p>
+        <nav class="nav">
+          <a href="#publications">Publications</a>
+          <a href="#blog">Blog</a>
+          <a href="#teaching">Teaching</a>
+          <a href="#bio">Bio</a>
+        </nav>
+      </div>
+      <img class="photo" src="photo.jpg" alt="Portrait of Riccardo Marin">
+    </header>
+
+    <!-- ============ SECTIONS: content comes from the folders ============ -->
+    <!-- data-k = which eigenfunction is drawn above the section -->
+    <section id="publications" data-k="1">
+      <h2>Selected publications</h2>
+      <div id="publications-list"></div>   <!-- publications/ folder -->
+      <p class="more">Full list on <a href="https://scholar.google.com/citations?user=qhw2qgQAAAAJ">Google Scholar</a>.</p>
+    </section>
+
+    <section id="blog" data-k="2">
+      <h2>Blog</h2>
+     Working on it
+      <!-- <div id="blog-list"></div>           blog/ folder -->
+    </section>
+
+    <section id="teaching" data-k="3">
+      <h2>Teaching</h2>
+      <div id="teaching-list"></div>       <!-- teaching/ folder -->
+    </section>
+
+    <section id="bio" data-k="4">
+      <h2>Bio</h2>
+      <div id="bio-text"></div>            <!-- bio.md -->
+    </section>
+
+    <footer>© 2026 Riccardo Marin</footer>
+  </main>
+</body>
+</html>
