@@ -1,6 +1,8 @@
 # Selected publications shown on the homepage, top to bottom.
-# One file name per line (without .md). Remove a line to hide a paper; lines starting with # are ignored.
+# One folder name per line (each folder holds paper.md, cite.bib and the teaser).
+# Remove a line to hide a paper; lines starting with # are ignored.
 odin
 echo
 stitched
+equifusion
 star

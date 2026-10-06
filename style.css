@@ -47,7 +47,7 @@ body {
 main { max-width: 46rem; margin: 0 auto; padding: 3.5rem 1rem 5rem; }
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--accent); }
-p a, .links a, .nav a, .contact a, .posts a, .terms a, .post-body a, .back a {
+p:not(.contact) a, .links a, .nav a, .posts a, .terms a, .post-body a, .back a {
   text-decoration: underline; text-decoration-thickness: 1px;
   text-underline-offset: .18em; text-decoration-color: var(--accent);
 }
@@ -59,13 +59,16 @@ h2 { font-size: 1rem; font-variant-caps: all-small-caps; letter-spacing: .12em; 
 
 /* ---------- Header ---------- */
 header.top { display: grid; grid-template-columns: 1fr 8rem; gap: 2rem; align-items: start; }
-.row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
 h1 { font-size: 2.6rem; line-height: 1.05; letter-spacing: -.005em; margin-bottom: .6rem; }
 .intro { font-size: 1.05rem; }
-.contact { font-size: .95rem; margin-top: .4rem; }
-.contact a { margin-right: .75em; }
-.nav { margin-top: 1rem; font-size: 1.02rem; font-variant-caps: all-small-caps; letter-spacing: .06em; }
-.nav a { margin-right: 1.2em; }
+.contact { margin-top: .8rem; display: flex; flex-wrap: wrap; gap: .35rem 1.05rem; }
+.contact a { color: var(--muted); text-decoration: none; display: inline-flex; padding: .15rem 0; }
+.contact a:hover { color: var(--accent); }
+.icon { width: 1.15rem; height: 1.15rem; fill: currentColor; display: block; }
+/* menu, top right */
+.nav { display: flex; justify-content: flex-end; align-items: baseline; flex-wrap: wrap; gap: .2rem 1.2em;
+  margin: -1.5rem 0 2.5rem; font-size: 1.02rem; font-variant-caps: all-small-caps; letter-spacing: .06em; }
+.nav .theme-toggle { margin-left: .4em; padding-left: 1.1em; border-left: 1px solid var(--rule); font-size: 1.02rem; }
 .photo { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 28%; border-radius: 50%; display: block; }
 .theme-toggle {
   font: inherit; font-size: .85rem; font-variant-caps: all-small-caps; letter-spacing: .08em;
@@ -79,10 +82,10 @@ h1 { font-size: 2.6rem; line-height: 1.05; letter-spacing: -.005em; margin-botto
 :root[data-palette="gradient"] .eig polyline { stroke: url(#viridis); opacity: 1; }
 
 /* ---------- Publications & teaching ---------- */
-.pub { display: grid; grid-template-columns: 11rem 1fr; gap: 1.4rem; margin-bottom: 2rem; align-items: start; }
+.pub { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.4rem; margin-bottom: 2rem; align-items: start; }
+.pub > * { min-width: 0; }
 .thumb { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; border-radius: 2px; }
-.thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.thumb img { object-fit: contain; }
+.thumb img, .thumb video { width: 100%; height: 100%; object-fit: contain; display: block; }
 .pub h3 { font-size: 1.08rem; line-height: 1.3; margin-bottom: .25rem; }
 .pub h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
 .pub p { margin: 0 0 .15rem; font-size: .92rem; line-height: 1.4; }
@@ -93,6 +96,17 @@ h1 { font-size: 2.6rem; line-height: 1.05; letter-spacing: -.005em; margin-botto
 .tldr { margin-top: .35rem !important; }
 .links { font-variant-caps: all-small-caps; letter-spacing: .05em; }
 .links a { margin-right: .7em; }
+.links button { font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; text-decoration-color: var(--accent); }
+.links button:hover { color: var(--accent); }
+/* BibTeX box under a publication */
+.bib { position: relative; margin: .5rem 0 .2rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.bib pre { margin: 0; padding: .7rem 4.5rem .7rem 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .74rem; line-height: 1.45; color: var(--fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: normal; }
+.bib .copy { position: absolute; top: .35rem; right: 0; font: inherit; font-size: .85rem; font-variant-caps: all-small-caps;
+  letter-spacing: .06em; color: var(--muted); background: var(--bg); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 0 .45em; cursor: pointer; }
+.bib .copy:hover { color: var(--accent); border-color: var(--accent); }
 .terms { color: var(--muted); }
 .course .thumb { border: 1px solid var(--rule); background: var(--bg); }
 .thumb-svg { width: 100%; height: 100%; display: block; }
@@ -134,7 +148,7 @@ h1 { font-size: 2.6rem; line-height: 1.05; letter-spacing: -.005em; margin-botto
 .post-body pre { overflow-x: auto; font-size: .85rem; line-height: 1.45; padding: .8rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 
 /* ---------- Gradient palette: links underlined with viridis ---------- */
-:root[data-palette="gradient"] :is(p a, .links a, .nav a, .contact a, .posts a, .terms a, .post-body a, .back a) {
+:root[data-palette="gradient"] :is(p:not(.contact) a, .links a, .nav a, .posts a, .terms a, .post-body a, .back a) {
   text-decoration: none; background-image: linear-gradient(90deg, var(--c1), var(--c4), var(--c7));
   background-size: 100% 1px; background-repeat: no-repeat; background-position: 0 92%;
 }
@@ -148,6 +162,7 @@ footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--rule);
   body { font-size: 18px; }
   main { padding-top: 2rem; }
   header.top { grid-template-columns: 1fr 5.5rem; gap: 1rem; }
+  .nav { margin: -.5rem 0 1.8rem; gap: .2rem .9em; }
   h1 { font-size: 2rem; }
   .pub { grid-template-columns: 1fr; gap: .7rem; }
   .posts li { grid-template-columns: 1fr; }

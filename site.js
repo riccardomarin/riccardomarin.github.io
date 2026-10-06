@@ -58,13 +58,17 @@ function parse(text) {
   return { meta: meta, body: m[2].trim() };
 }
 
-// A name in list.txt without its .md file is skipped (with a warning in the console).
-async function readFolder(folder) {
+// Each name in list.txt is either a file (folder/name.md) or, when `file` is given,
+// a subfolder (folder/name/file). Missing entries are skipped with a console warning.
+// item.base is the folder that the entry's own paths (media, bibtex) are relative to.
+async function readFolder(folder, file) {
   const names = await readList(folder);
   const items = await Promise.all(names.map(async function (name) {
     try {
-      const item = parse(await fetchText(folder + '/' + name + '.md'));
+      const base = file ? folder + '/' + name : folder;
+      const item = parse(await fetchText(file ? base + '/' + file : base + '/' + name + '.md'));
       item.name = name;
+      item.base = base;
       return item;
     } catch (e) { console.warn('Skipped', folder + '/' + name + '.md', e); return null; }
   }));
@@ -122,9 +126,21 @@ function media(src, alt) {
 }
 
 /* ---------- Sections ---------- */
+function escapeHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return; } catch (e) {}
+  const ta = document.createElement('textarea'); // fallback for older browsers
+  ta.value = text; document.body.appendChild(ta); ta.select();
+  document.execCommand('copy'); ta.remove();
+}
+
 async function renderPublications(el) {
-  const items = await readFolder('publications');
-  el.innerHTML = items.map(function (p) {
+  const items = await readFolder('publications', 'paper.md');
+  const bibs = await Promise.all(items.map(function (p) {
+    return fetchText(p.base + '/cite.bib').then(function (t) { return t.trim(); }).catch(function () { return ''; });
+  }));
+  el.innerHTML = items.map(function (p, i) {
     const m = p.meta, links = Array.isArray(m.links) ? m.links : [];
     const main = links.length ? links[0][1] : '#';
     const authors = (m.authors || '').split(',').map(function (a) {
@@ -133,15 +149,31 @@ async function renderPublications(el) {
     const notes = (m.notes || '').split(',').map(function (n) { return n.trim(); }).filter(Boolean)
       .map(function (n) { return '<span class="note">' + n + '</span>'; }).join('');
     return '<article class="pub">' +
-      (m.media ? '<a class="thumb" href="' + main + '">' + media(resolve('publications', m.media), m.title) + '</a>' : '<div></div>') +
+      (m.media ? '<a class="thumb" href="' + main + '">' + media(resolve(p.base, m.media), m.title) + '</a>' : '<div></div>') +
       '<div><h3><a href="' + main + '">' + m.title + '</a></h3>' +
       '<p class="authors">' + authors + '</p>' +
       '<p class="venue"><em>' + (m.venue || '') + '</em>' + notes + '</p>' +
       (p.body ? '<p class="tldr">' + mdInline(p.body) + '</p>' : '') +
-      '<p class="links">' + links.map(function (l) { return '<a href="' + l[1] + '">' + l[0] + '</a>'; }).join(' ') + '</p>' +
+      '<p class="links">' + links.map(function (l) { return '<a href="' + l[1] + '">' + l[0] + '</a>'; }).join(' ') +
+      (bibs[i] ? '<button type="button" class="bib-toggle" aria-expanded="false">bibtex</button>' : '') + '</p>' +
+      (bibs[i] ? '<div class="bib" hidden><button type="button" class="copy">copy</button><pre>' + escapeHtml(bibs[i]) + '</pre></div>' : '') +
       '</div></article>';
   }).join('');
   el.querySelectorAll('.venue').forEach(smallCaps);
+  el.querySelectorAll('.pub').forEach(function (article) {
+    const toggle = article.querySelector('.bib-toggle'), box = article.querySelector('.bib');
+    if (!toggle) return;
+    toggle.addEventListener('click', function () {
+      box.hidden = !box.hidden;
+      toggle.setAttribute('aria-expanded', String(!box.hidden));
+    });
+    const copy = box.querySelector('.copy');
+    copy.addEventListener('click', async function () {
+      await copyText(box.querySelector('pre').textContent);
+      copy.textContent = 'copied';
+      setTimeout(function () { copy.textContent = 'copy'; }, 1500);
+    });
+  });
 }
 
 async function renderBlog(el) {
